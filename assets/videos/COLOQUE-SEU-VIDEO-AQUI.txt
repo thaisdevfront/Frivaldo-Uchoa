@@ -1,0 +1,1 @@
+Coloque aqui o vídeo institucional com o nome hero.mp4. O player já está configurado para autoplay, muted, loop e playsinline.

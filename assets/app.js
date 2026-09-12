@@ -235,3 +235,9 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
   }
 })();
+
+
+/* V8 hero media fallback */
+document.querySelectorAll('.hero-media-video').forEach(function(video){
+  video.addEventListener('error',function(){ video.style.display='none'; });
+});
