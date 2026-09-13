@@ -1525,6 +1525,16 @@ nav a:hover {
     box-shadow: 0 14px 36px rgba(199, 163, 91, .16)
 }
 
+.form .btn[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+
+
 .btn.primary:hover {
     background: var(--lux-gold-soft);
     color: #0D0B08;

@@ -62,62 +62,136 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* WhatsApp forms */
-(function () {
-    const WHATSAPP_NUMBER = "5511989725035";
+// (function () {
+//     const WHATSAPP_NUMBER = "5511989725035";
 
-    function value(form, selector) {
-        const el = form.querySelector(selector);
-        return el ? el.value.trim() : "";
-    }
+//     function value(form, selector) {
+//         const el = form.querySelector(selector);
+//         return el ? el.value.trim() : "";
+//     }
 
-    function openWhatsApp(message) {
+//     function openWhatsApp(message) {
+//         const url =
+//             "https://wa.me/" +
+//             WHATSAPP_NUMBER +
+//             "?text=" +
+//             encodeURIComponent(message);
+//         window.open(url, "_blank", "noopener,noreferrer");
+//     }
+
+//     document
+//         .querySelectorAll("form[data-whatsapp-form]")
+//         .forEach(function (form) {
+//             form.addEventListener("submit", function (event) {
+//                 event.preventDefault();
+
+//                 const nome = value(form, '[name="nome"]');
+//                 const whatsapp = value(form, '[name="whatsapp"]');
+//                 const email = value(form, '[name="email"]');
+//                 const cidade = value(form, '[name="cidade"]');
+//                 const unidade = value(form, '[name="unidade"]');
+//                 const assunto = value(form, '[name="assunto"]');
+//                 const motivo = value(form, '[name="motivo"]');
+//                 const mensagem = value(form, '[name="mensagem"]');
+
+//                 if (!nome || !whatsapp || !mensagem) {
+//                     alert("Preencha pelo menos nome, WhatsApp e mensagem.");
+//                     return;
+//                 }
+
+//                 const linhas = [
+//                     "Olá! Vim pelo site Frivaldo Uchoa / Clínica Ômega.",
+//                     "",
+//                     "Nome: " + nome,
+//                     "WhatsApp: " + whatsapp,
+//                     email ? "E-mail: " + email : "",
+//                     cidade ? "Cidade: " + cidade : "",
+//                     unidade ? "Unidade: " + unidade : "",
+//                     assunto ? "Assunto: " + assunto : "",
+//                     motivo ? "Motivo: " + motivo : "",
+//                     "",
+//                     "Mensagem:",
+//                     mensagem,
+//                 ].filter(Boolean);
+
+//                 openWhatsApp(linhas.join("\n"));
+//             });
+//         });
+// })();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const whatsappForm = document.querySelector("[data-whatsapp-form]");
+
+    if (!whatsappForm) return;
+
+    whatsappForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(whatsappForm);
+
+        const nome = formData.get("nome") || "";
+        const whatsapp = formData.get("whatsapp") || "";
+        const email = formData.get("email") || "";
+        const cidade = formData.get("cidade") || "";
+        const assunto = formData.get("assunto") || "";
+        const mensagem = formData.get("mensagem") || "";
+
+        /*
+         * Define o número de WhatsApp conforme o assunto
+         */
+        let numeroWhatsApp = "5511970790062";
+
+        if (assunto === "clinica-omega") {
+            numeroWhatsApp = "5585998695438";
+        }
+
+        /*
+         * Nome amigável do assunto
+         */
+        const nomesAssuntos = {
+            "clinica-omega": "Clínica Ômega",
+            "instituto-alpha": "Instituto Alpha",
+            "mentoria": "Mentoria",
+            "parceria": "Parceria",
+            "imprensa": "Imprensa",
+            "outro": "Outro"
+        };
+
+        const assuntoNome =
+            nomesAssuntos[assunto] || assunto;
+
+        /*
+         * Monta a mensagem que será enviada
+         */
+        const texto = `Olá! Vim pelo site do Frivaldo Uchoa.
+
+Gostaria de entrar em contato sobre: ${assuntoNome}.
+
+Nome: ${nome}
+WhatsApp: ${whatsapp}
+E-mail: ${email}
+Cidade: ${cidade}
+
+Mensagem:
+${mensagem}`;
+
+        /*
+         * Codifica a mensagem para a URL do WhatsApp
+         */
         const url =
-            "https://wa.me/" +
-            WHATSAPP_NUMBER +
-            "?text=" +
-            encodeURIComponent(message);
+            `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(texto)}`;
+
+        /*
+         * Abre o WhatsApp
+         */
         window.open(url, "_blank", "noopener,noreferrer");
-    }
+    });
+});
 
-    document
-        .querySelectorAll("form[data-whatsapp-form]")
-        .forEach(function (form) {
-            form.addEventListener("submit", function (event) {
-                event.preventDefault();
 
-                const nome = value(form, '[name="nome"]');
-                const whatsapp = value(form, '[name="whatsapp"]');
-                const email = value(form, '[name="email"]');
-                const cidade = value(form, '[name="cidade"]');
-                const unidade = value(form, '[name="unidade"]');
-                const assunto = value(form, '[name="assunto"]');
-                const motivo = value(form, '[name="motivo"]');
-                const mensagem = value(form, '[name="mensagem"]');
 
-                if (!nome || !whatsapp || !mensagem) {
-                    alert("Preencha pelo menos nome, WhatsApp e mensagem.");
-                    return;
-                }
 
-                const linhas = [
-                    "Olá! Vim pelo site Frivaldo Uchoa / Clínica Ômega.",
-                    "",
-                    "Nome: " + nome,
-                    "WhatsApp: " + whatsapp,
-                    email ? "E-mail: " + email : "",
-                    cidade ? "Cidade: " + cidade : "",
-                    unidade ? "Unidade: " + unidade : "",
-                    assunto ? "Assunto: " + assunto : "",
-                    motivo ? "Motivo: " + motivo : "",
-                    "",
-                    "Mensagem:",
-                    mensagem,
-                ].filter(Boolean);
 
-                openWhatsApp(linhas.join("\n"));
-            });
-        });
-})();
 
 /* =========================================================
    CINEMATIC MOTION ENGINE
